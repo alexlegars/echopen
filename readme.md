@@ -1,9 +1,14 @@
-# DAN Frameworks
+# Dan Frameworks
 
 ## Dependencies
 
 ```
-npm install -g gulp yo
+npm install -g 
+```
+
+
+```
+npm install -g gulp
 ```
 
 ## Usage
@@ -13,15 +18,12 @@ First make a new directory, and `cd` into it:
 mkdir my-new-project && cd $_
 ```
 
-Then install `generator-dan`:
+import modules:
 ```
-npm install -g generator-dan
+npm install 
 ```
 
-Run `yo dan`, optionally passing an app name:
-```
-yo dan
-```
+
 
 To see the result launch:
 ```
@@ -37,5 +39,5 @@ gulp
 
 ## Documentations
 
-* Dan Frameworks: `/docs/danFw/`
+* DAN Frameworks: `/docs/danFw/`
 * Templates: `/docs/templates/`
