@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MyProject</title>
+    <meta name="description" content="MyDescription">
+    <meta name="fragment" content="!">
+
+    <link rel="icon" type="image/png" href="{path}img/favicon.png" />
+    <link rel="apple-touch-icon" href="{path}img/apple-touch-icon.png">
+
+    <meta property="og:title" content="Your-project">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://www.google.com">
+    <meta property="og:image" content="http://www.google.com/images/thumb.jpg">
+    <meta property="og:description" content="Your-description">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0,minimal-ui">
+</head>
+<body>
+<style>
+    body, html {
+        padding : 0;
+        margin : 0;
+    }
+</style>
+<div id="container"></div>
+<script type="text/javascript">
+    (function(d, w) {
+        w.config = {
+            path: '{path}',
+            assets: '{assets}',
+            locales: [],
+            locale: null,
+            env: '{env}'
+        };
+        var s = [w.config.assets+'js/main.js'], js, i = 0;
+        (!('Promise' in window) || !('pushState' in history)) && s.unshift(w.config.assets+'js/polyfill.js');
+        (function l() {
+            js = d.createElement('script');
+            js.onload = i < s.length - 1?l:null;
+            js.src = s[i++];
+            d.body.appendChild(js);
+        })();
+    })(document, window);
+</script>
+</body>
+</html>
