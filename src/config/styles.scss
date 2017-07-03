@@ -5,3 +5,15 @@ $imgPath: $path+'img/';
 // Responsive
 @mixin mobile() { @media screen and (max-width:767px) { @content; } } // @include mobile { }
 @mixin desktop() { @media screen and (min-width:768px) { @content; } } // @include desktop { }
+
+
+// add colors
+
+$white: #fff;
+$black: #000;
+
+// add fonts
+
+
+// add mixins
+
