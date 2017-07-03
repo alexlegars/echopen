@@ -1,21 +1,28 @@
-import React from 'react';
-import _ from '_';
-import {Localize, Link, i18n, i18nComponent, Asset, assets} from 'dan';
-import config from 'config';
-import css from './styles.scss';
+import React from 'react'
+import _ from '_'
+import {Localize, i18n, i18nComponent} from 'dan'
+import config from 'config'
+import './styles.scss'
 
-@i18nComponent
+
 export default class BlockOne extends React.Component {
     constructor(props) {
         super(props);
+
+
+
+    }
+
+    onclick() {
+        console.log('niquetamere')
     }
 
 
-
     render() {
+
         return (
-            <div className={css.component}>
-             
+            <div className="component blockone" onClick={this.onclick.bind(this)}>
+                <h1>{this.props.data}</h1>
             </div>
         );
     }

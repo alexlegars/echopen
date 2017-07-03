@@ -2,7 +2,8 @@ import React from 'react';
 import _ from '_';
 import {Localize, Link, i18n, i18nComponent, Asset, assets} from 'dan';
 import config from 'config';
-import css from './styles.scss';
+import './styles.scss';
+import BlockOne from 'components/blocks/blockone';
 
 @i18nComponent
 export default class Home extends React.Component {
@@ -14,7 +15,7 @@ export default class Home extends React.Component {
 
     render() {
         return (
-            <div className={css.component}>
+            <div className="component home">
                 {
                     config.locales.map(function (locale) {
                         return <Link route="home"
@@ -25,7 +26,7 @@ export default class Home extends React.Component {
                 }
 
                 <h1>ECHOPEN</h1>
-
+                <BlockOne data={i18n.localize("shit")}/>
                 <h2><Localize>Commands</Localize></h2>
 
                 <ul>
