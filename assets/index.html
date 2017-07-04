@@ -27,11 +27,17 @@
 <div id="container"></div>
 <script type="text/javascript">
     (function(d, w) {
+        var language = window.navigator.userLanguage || window.navigator.language;
+        if(language != 'fr' && language != 'fr-fr') {
+            language = 'en';
+        } else {
+            language = 'fr';
+        }
         w.config = {
             path: '{path}',
             assets: '{assets}',
             locales: [],
-            locale: null,
+            locale: language,
             env: '{env}'
         };
         var s = [w.config.assets+'js/main.js'], js, i = 0;
