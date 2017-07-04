@@ -20,6 +20,7 @@ module.exports = {
 
             // Libs
             'dan': __dirname + '/src/bundles/dan',
+            'sine-wave': __dirname + '/node_modules/sine-waves/sine-waves.min.js',
             'events': __dirname + '/node_modules/events/events.js',
             'async': __dirname + '/node_modules/async/lib/async.js',
             '_': __dirname + '/node_modules/lodash/index.js',

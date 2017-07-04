@@ -2,6 +2,7 @@
 dist
 .tmp
 .tmp-dist
+package-lock.json
 
 # Modules
 src/bundles/dan/modules/modules.js

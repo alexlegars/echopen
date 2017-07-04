@@ -26,6 +26,7 @@
     "react": "^15.0.1",
     "react-dom": "^15.0.1",
     "signals": "^1.0.0",
+    "sine-waves": "^0.3.0",
     "webfontloader": "^1.6.24",
     "whatwg-fetch": "^0.11.0"
   },

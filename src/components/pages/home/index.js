@@ -4,6 +4,8 @@ import {Localize, Link, i18n, i18nComponent, Asset, assets} from 'dan';
 import config from 'config';
 import './styles.scss';
 import BlockOne from 'components/blocks/blockone';
+import Anim from 'components/blocks/anim';
+
 
 @i18nComponent
 export default class Home extends React.Component {
@@ -27,6 +29,7 @@ export default class Home extends React.Component {
 
                 <h1>ECHOPEN</h1>
                 <BlockOne data={i18n.localize("shit")}/>
+                <Anim/>
                 <h2><Localize>Commands</Localize></h2>
 
                 <ul>
