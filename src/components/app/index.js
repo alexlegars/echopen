@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import {Localize, Link, router} from 'dan';
 import 'gsap';
 import './styles.scss';
+import Menu from 'components/blocks/menu';
 
 class Page extends React.Component {
     constructor(props) {
@@ -80,37 +81,90 @@ export default class App extends React.Component {
      * @param {React.Component} view
      * @param {Object} [params] URL Parameters
      */
+    /**
+     * Set content page
+     * @param {React.Component} view
+     * @param {Object} [params] URL Parameters
+     */
     setPage(view, params) {
-        var current = this.currentPage,
-            next = this.nextPage;
+        this.current = this.currentPage, this.next = this.nextPage;
 
-        // New content
-        if(current.content != view) {
-            next.setContent(view, params);
-
-            // Animation
-            next.el.style.opacity = 0;
-            TweenMax.killTweensOf([
-                current.el,
-                next.el
-            ]);
-            TweenMax.to(current.el, .25, {
-                opacity: 0,
-                onComplete: function() {
-                    current.setContent('div', params);
-                    current.el.style.display = 'none';
-                    next.el.style.display = '';
-                    TweenMax.to(next.el, .25, {
-                        opacity: 1
+        var preload = () => {
+            document.getElementsByClassName('app')[0].scrollTop = 0;
+            if (this.next.component && this.next.component.preload) {
+                if (this.firstLoad) {
+                    this.firstLoad = false;
+                    this.next.component.preload(params).then(() => {
+                        changeView();
+                        Loader.hide();
                     });
                 }
-            });
+                else {
+                    Loader.show().then(() => {
+                        this.next.component.preload(params).then(() => {
+                            changeView();
+                            Loader.hide();
+                        });
+                    });
+                }
+            }
+            else {
+                if (this.firstLoad) {
+                    this.firstLoad = false;
+                }
+                changeView();
+                //Loader.hideDirectly();
+            }
+        };
 
-            // Swap
+        var animateOut = () => {
+            if (this.current.component && this.current.component.animateOut) {
+                this.current.component.animateOut().then(() => {
+                    this.next.component.componentWillUnAppear && this.next.component.componentWillUnAppear();
+                    preload();
+                });
+            }
+            else {
+                this.next && this.next.component && this.next.component.componentWillUnAppear && this.next.component.componentWillUnAppear();
+                preload();
+            }
+        };
+
+        var changeView = () => {
+            // Animation
+            TweenMax.killTweensOf([
+                this.current.el,
+                this.next.el
+            ]);
+            if (this.next.component && this.next.component.animateIn) {
+                swap();
+                this.next.component.animateIn().then(() => {
+                    this.next && this.next.component && this.next.component.componentDidAppear && this.next.component.componentDidAppear();
+                });
+            }
+            else {
+                swap();
+                this.next && this.next.component && this.next.component.componentDidAppear && this.next.component.componentDidAppear();
+            }
+        };
+
+        var swap = () => {
+            this.current && this.current.setContent('div');
+            this.current.el.style.display = 'none';
+            this.current.el.style.zIndex = 3;
+            this.next.el.style.zIndex = 4;
             this.currentIndex = (this.currentIndex + 1) % this.pages.length;
-        }
-    }
+        };
 
+        this.next && this.next.setContent(view, params);
+        this.next.el.style.display = 'block';
+
+        animateOut();
+
+        // this.refs.bar && this.refs.bar.update();
+        // this.refs.burgerButton && this.refs.burgerButton.classList.remove("open");
+        // this.refs.menu && this.refs.menu.changeState({opened : false});
+    }
     shouldComponentUpdate(props, state) {
         return false;
     }
@@ -119,6 +173,7 @@ export default class App extends React.Component {
         this.pages = [];
         return (
             <div className="component app">
+                <Menu ref="menu"/>
                 <Page ref="p0"/>
                 <Page ref="p1"/>
             </div>

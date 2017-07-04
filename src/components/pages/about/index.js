@@ -15,15 +15,7 @@ export default class About extends React.Component {
     render() {
         return (
             <div className={css.component}>
-                {
-                    config.locales.map(function (locale) {
-                        return <Link route="home"
-                                     locale={locale}
-                                     className={"lang "+(i18n.locale === locale?"focus":"")}
-                                     key={locale}>{locale}</Link>
-                    })
-                }
-
+               
                 <h1>About</h1>
 
                 <h2><Localize>Commands</Localize></h2>
