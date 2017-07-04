@@ -10,7 +10,7 @@ export default class BlockOne extends React.Component {
         super(props);
 
 
-
+        onclick = this.onclick.bind(this);
     }
 
     onclick() {
@@ -21,7 +21,7 @@ export default class BlockOne extends React.Component {
     render() {
 
         return (
-            <div className="component blockone" onClick={this.onclick.bind(this)}>
+            <div className="component blockone" onClick={onclick}>
                 <h1>{this.props.data}</h1>
             </div>
         );

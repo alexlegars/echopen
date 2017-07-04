@@ -1,4 +1,5 @@
 {
-  "home": "/fr",
-  "about": "/about/fr"
+  "home": "/",
+  "home-bis": "/fr",
+  "about": "/fr/about"
 }

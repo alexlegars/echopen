@@ -16,14 +16,7 @@ export default class Home extends React.Component {
     render() {
         return (
             <div className="component home">
-                {
-                    config.locales.map(function (locale) {
-                        return <Link route="home"
-                                     locale={locale}
-                                     className={"lang "+(i18n.locale === locale?"focus":"")}
-                                     key={locale}>{locale}</Link>
-                    })
-                }
+             
 
                 <h1>ECHOPEN</h1>
                 <BlockOne data={i18n.localize("shit")}/>
