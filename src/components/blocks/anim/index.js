@@ -3,7 +3,7 @@ import _ from '_'
 import {Localize, i18n, i18nComponent} from 'dan'
 import config from 'config'
 import './styles.scss'
-import SineWaves from 'sine-wave';
+import {SineWave} from 'sine-wave';
 
 
 export default class Anim extends React.Component {
@@ -25,201 +25,62 @@ export default class Anim extends React.Component {
          */
 
 
-
-        return (
-            <div className="component anim" onClick={this.onclick.bind(this)}>
-    <h1>{this.props.data}</h1>
-                <canvas id="waves"></canvas>
-            </div>
-    );
-
-        function SineWaveGenerator(options) {
-            $.extend(this, options || {});
-
-            if(!this.el) { throw "No Canvas Selected"; }
-            this.ctx = this.el.getContext('2d');
-
-            if(!this.waves.length) { throw "No waves specified"; }
-
-            // Internal
-            this._resizeWidth();
-            window.addEventListener('resize', this._resizeWidth.bind(this));
-            // User
-            this.resizeEvent();
-            window.addEventListener('resize', this.resizeEvent.bind(this));
-
-            if(typeof this.initialize === 'function') {
-                this.initialize.call(this);
-            }
-            // Start the magic
-            this.loop();
-        }
-
-// Defaults
-        SineWaveGenerator.prototype.speed = 10;
-        SineWaveGenerator.prototype.amplitude = 50;
-        SineWaveGenerator.prototype.wavelength = 50;
-        SineWaveGenerator.prototype.segmentLength = 10;
-
-        SineWaveGenerator.prototype.lineWidth = 2;
-        SineWaveGenerator.prototype.strokeStyle  = 'rgba(60, 110, 182, 1)';
-
-        SineWaveGenerator.prototype.resizeEvent = function() {};
-
-// fill the screen
-        SineWaveGenerator.prototype._resizeWidth = function() {
-            this.dpr = window.devicePixelRatio || 1;
-
-            this.width = this.el.width = window.innerWidth * this.dpr;
-            this.height = this.el.height = window.innerHeight * this.dpr;
-            this.el.style.width = window.innerWidth + 'px';
-            this.el.style.height = window.innerHeight + 'px';
-
-            this.waveWidth = this.width * 0.95;
-            this.waveLeft = this.width * 0.025;
-        }
-
-        SineWaveGenerator.prototype.clear = function () {
-            this.ctx.clearRect(0, 0, this.width, this.height);
-        }
-
-        SineWaveGenerator.prototype.time = 0;
-
-        SineWaveGenerator.prototype.update = function(time) {
-            this.time = this.time - 0.007;
-            if(typeof time === 'undefined') {
-                time = this.time;
-            }
-
-            var index = -1;
-            var length = this.waves.length;
-
-            while(++index < length) {
-                var timeModifier = this.waves[index].timeModifier || 1;
-                this.drawSine(time * timeModifier, this.waves[index]);
-            }
-            index = void 0;
-            length = void 0;
-        }
-
-// Constants
-        var PI2 = Math.PI * 2;
-        var HALFPI = Math.PI / 2;
-
-        SineWaveGenerator.prototype.ease = function(percent, amplitude) {
-            return amplitude * (Math.sin(percent * PI2 - HALFPI) + 1) * 0.5;
-        }
-
-        SineWaveGenerator.prototype.drawSine = function(time, options) {
-            options = options || {};
-            amplitude = options.amplitude || this.amplitude;
-            wavelength = options.wavelength || this.wavelength;
-            lineWidth = options.lineWidth || this.lineWidth;
-            strokeStyle = options.strokeStyle || this.strokeStyle;
-            segmentLength = options.segmentLength || this.segmentLength;
-
-            var x = time;
-            var y = 0;
-            var amp = this.amplitude;
-
-            // Center the waves
-            var yAxis = this.height / 2;
-
-            // Styles
-            this.ctx.lineWidth = lineWidth * this.dpr;
-            this.ctx.strokeStyle = strokeStyle;
-            this.ctx.lineCap = 'round';
-            this.ctx.lineJoin = 'round';
-            this.ctx.beginPath();
-
-            // Starting Line
-            this.ctx.moveTo(0, yAxis);
-            this.ctx.lineTo(this.waveLeft, yAxis);
-
-            for(var i = 0; i < this.waveWidth; i += segmentLength) {
-                x = (time * this.speed) + (-yAxis + i) / wavelength;
-                y = Math.sin(x);
-
-                // Easing
-                amp = this.ease(i / this.waveWidth, amplitude);
-
-                this.ctx.lineTo(i + this.waveLeft, amp * y + yAxis);
-
-                amp = void 0;
-            }
-
-            // Ending Line
-            this.ctx.lineTo(this.width, yAxis);
-
-            // Stroke it
-            this.ctx.stroke();
-
-            // Clean up
-            options = void 0;
-            amplitude = void 0;
-            wavelength = void 0;
-            lineWidth = void 0;
-            strokeStyle = void 0;
-            segmentLength = void 0;
-            x = void 0;
-            y = void 0;
-        }
-
-        SineWaveGenerator.prototype.loop = function() {
-            this.clear();
-            this.update();
-
-            window.requestAnimationFrame(this.loop.bind(this));
-        }
-
-        new SineWaveGenerator({
+        var waves = new SineWaves({
             el: document.getElementById('waves'),
 
-            speed: 8,
+            speed: 4,
+
+            width: function() {
+                return $(window).width();
+            },
+
+            height: function() {
+                return $(window).height();
+            },
+
+            ease: 'SineInOut',
+
+            wavesWidth: '70%',
 
             waves: [
                 {
-                    timeModifier: 1,
-                    lineWidth: 3,
-                    amplitude: 150,
-                    wavelength: 200,
-                    segmentLength: 20,
-//       strokeStyle: 'rgba(255, 255, 255, 0.5)'
+                    timeModifier: 4,
+                    lineWidth: 1,
+                    amplitude: -25,
+                    wavelength: 25
                 },
                 {
-                    timeModifier: 1,
+                    timeModifier: 2,
                     lineWidth: 2,
-                    amplitude: 150,
-                    wavelength: 100,
-//       strokeStyle: 'rgba(255, 255, 255, 0.3)'
+                    amplitude: -50,
+                    wavelength: 50
                 },
                 {
                     timeModifier: 1,
                     lineWidth: 1,
-                    amplitude: -150,
-                    wavelength: 50,
-                    segmentLength: 10,
-//       strokeStyle: 'rgba(255, 255, 255, 0.2)'
+                    amplitude: -100,
+                    wavelength: 100
                 },
                 {
-                    timeModifier: 1,
-                    lineWidth: 0.5,
-                    amplitude: -100,
-                    wavelength: 100,
-                    segmentLength: 10,
-//       strokeStyle: 'rgba(255, 255, 255, 0.1)'
+                    timeModifier: 0.5,
+                    lineWidth: 1,
+                    amplitude: -200,
+                    wavelength: 200
+                },
+                {
+                    timeModifier: 0.25,
+                    lineWidth: 2,
+                    amplitude: -400,
+                    wavelength: 400
                 }
             ],
 
-            initialize: function (){
-
-            },
-
+            // Called on window resize
             resizeEvent: function() {
                 var gradient = this.ctx.createLinearGradient(0, 0, this.width, 0);
-                gradient.addColorStop(0,"rgba(60, 110, 182, 1)");
-                gradient.addColorStop(0.5,"rgba(176, 203, 203, 1)");
-                gradient.addColorStop(1,"rgba(60, 110, 182, 1)");
+                gradient.addColorStop(0,"rgba(23, 210, 168, 0.2)");
+                gradient.addColorStop(0.5,"rgba(255, 255, 255, 0.5)");
+                gradient.addColorStop(1,"rgba(23, 210, 168, 0.2)");
 
                 var index = -1;
                 var length = this.waves.length;
@@ -233,5 +94,13 @@ export default class Anim extends React.Component {
                 gradient = void 0;
             }
         });
+
+        return (
+            <div className="component anim" onClick={this.onclick.bind(this)}>
+    <h1>{this.props.data}</h1>
+                <canvas id="waves"/>
+            </div>
+    );
+
     }
 }
