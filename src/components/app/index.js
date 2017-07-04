@@ -161,9 +161,9 @@ export default class App extends React.Component {
 
         animateOut();
 
-        this.refs.bar && this.refs.bar.update();
-        this.refs.burgerButton && this.refs.burgerButton.classList.remove("open");
-        this.refs.menu && this.refs.menu.changeState({opened : false});
+        // this.refs.bar && this.refs.bar.update();
+        // this.refs.burgerButton && this.refs.burgerButton.classList.remove("open");
+        // this.refs.menu && this.refs.menu.changeState({opened : false});
     }
     shouldComponentUpdate(props, state) {
         return false;
